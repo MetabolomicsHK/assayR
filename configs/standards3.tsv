@@ -1,0 +1,38 @@
+target	name	mz	ppm	rt.min	rt.max	samples	threshold	known alternatives	C13	N15	H2	event	interactive
+Cystine	Cystine	239.0165	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Choline	Choline	103.1002	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+AICAR	AICAR	337.0555	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+NADPH	NADPH	744.0838	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+s(5-adenosyl)-3-thiopropylamine	s(5-adenosyl)-3-thiopropylamine	339.1244	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+erythrose 4-phosphate	erythrose 4-phosphate	196.9867	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+phosphocholine	phosphocholine	183.0666	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+N-acetylcysteine	N-acetylcysteine	162.023	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+cysteine	cysteine	120.0124	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+cytidine 5-diphosphocholine	cytidine 5-diphosphocholine	487.1	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+creatine phsphate	creatine phsphate	210.0285	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Spermine	Spermine	201.2084	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+cadaverine	cadaverine	101.1084	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+putrescine	putrescine	87.0927	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+D-ribulose 5-phosphate	D-ribulose 5-phosphate	226.9973	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Ribofeavin	Ribofeavin	375.131	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Succinte	Succinte	117.0193	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Tetrahydrofolate	Tetrahydrofolate	444.1637	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Auranofin	Auranofin	677.1253	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Galactose	Galactose	179.0561	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Nicotinamide	Nicotinamide	121.0407	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Nicotinate	Nicotinate	122.0247	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+DL-α-Glycerol phosphate	DL-α-Glycerol phosphate	171.0064	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+2′-Deoxycytidine	2′-Deoxycytidine	226.0833	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+L-Tryptophan	L-Tryptophan	203.0826	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+α-Lipoate	α-Lipoate	205.0362	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Thiamine	Thiamine	264.105	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+"2,3-Pyridinedicarboxylate(quinolinate)"	"2,3-Pyridinedicarboxylate(quinolinate)"	166.0146	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Uridine	Uridine	243.0622	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Pyridoxine	Pyridoxine	168.0666	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+DL-Methionine sulfone	DL-Methionine sulfone	180.0336	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Taurocholic acid	Taurocholic acid	514.2844	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Thymidine	Thymidine	241.083	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+2′-Deoxyadenosine	2′-Deoxyadenosine	250.0945	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+2′-Deoxyguanosine	2′-Deoxyguanosine	266.0895	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+N1-Acetylspermine	N1-Acetylspermine	243.219	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+butyrate	butyrate	87.0451	2.5	2	28	7	1000000	TBC	0	0	0	1	yes

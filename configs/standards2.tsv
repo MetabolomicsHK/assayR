@@ -1,0 +1,37 @@
+target	name	mz	ppm	rt.min	rt.max	samples	threshold	known alternatives	C13	N15	H2	event	interactive
+serine	serine	104.0353	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Taurine	Taurine	124.0074	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+S-Allylcysteine	S-Allylcysteine	160.0437	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Phosphocreatine	Phosphocreatine	210.0285	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+S-(5-adenosyl)-homocysteine	S-(5-adenosyl)-homocysteine	383.1143	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+S-(5-adenosyl)-Methionine	S-(5-adenosyl)-Methionine	397.1299	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Methyltetrahydrofolate	Methyltetrahydrofolate	458.1793	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Orotate	Orotate	155.0098	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+ornithine	ornithine	131.0826	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+proline	proline	114.056	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+malic acid	malic acid	133.0142	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Glutamic acid	Glutamic acid	146.0459	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+alanine	alanine	88.0404	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+arginine	arginine	173.1044	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Hypoxanthine	Hypoxanthine	135.0312	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Lysine	Lysine	145.0982	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Folate	Folate	440.1324	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+fumarate	fumarate	115.0037	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+dihydrofolate	dihydrofolate	442.148	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+dTTP	dTTP	480.982	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+FAD	FAD	784.1498	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+dCTP	dCTP	465.9823	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+dGTP	dGTP	505.9884	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Creatinine	Creatinine	112.0516	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+dATP	dATP	489.9935	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+gamma-Aminobutyrate	gamma-Aminobutyrate	102.056	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Catechol	Catechol	109.0295	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Creatine	Creatine	130.0622	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+5-aminolevulinic	5-aminolevulinic	130.0509	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+s(5-adenosyl)-3-thiopropylamine	s(5-adenosyl)-3-thiopropylamine	339.394	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+glutathione	glutathione	306.0765	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Methionine	Methionine	148.0437	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+DHAP	DHAP	168.9907	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Fructose	Fructose	179.0561	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+Fructose-6-phosphate	Fructose-6-phosphate	259.0224	2.5	2	28	7	1000000	TBC	0	0	0	1	yes
+isocitrate	isocitrate	191.0197	2.5	2	28	7	1000000	TBC	0	0	0	1	yes

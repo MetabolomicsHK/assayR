@@ -1,0 +1,7 @@
+target	name	mz	ppm	rt.min	rt.max	samples	threshold	known.alternatives	C13	N15	H2	event	interactive
+dCMP	dCMP	306.0496	10	5	9	20	2.00E+06	TBC	0	0	0	1	yes
+mdCMP	mdCMP	320.0648	10	5	9	20	1.00E+06	TBC	0	0	0	1	yes
+hmdCMP	hmdCMP	336.0597	10	5	9	20	1.00E+06	TBC	0	0	0	1	yes
+dGMP	dGMP	346.0558	10	5	9	20	1.00E+06	TBC	0	0	0	1	yes
+dAMP	dAMP	330.0609	10	5	9	20	1.00E+06	TBC	0	0	0	1	yes
+dTMP	TMP	321.0493	10	5	9	20	1.00E+06	TBC	0	0	0	1	yes
