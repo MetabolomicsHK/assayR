@@ -350,11 +350,15 @@ baseline = function(x,d){
         # for the max ...
         ########################### THIS IS WHERE...
         ######################### we could use min in stead of median to get neighbour-peak-resistant baseline
-        med1 = median(np[prestart:start], na.rm = TRUE)
-        med2 = median(np[end:postend], na.rm = TRUE)
+        min1 = min(np[prestart:start], na.rm = TRUE)
+        min2 = min(np[end:postend], na.rm = TRUE)
+        #med1 = median(np[prestart:start], na.rm = TRUE)
+        #med2 = median(np[end:postend], na.rm = TRUE)
+        if(length(min1)<1){ min1 = 0 }
+        if(length(min2)<1){ min2 = 0 }
         #cat(prestart, start, end, postend, med1i, med2i, length(np),"\n")
         #cat(np[med1i],np[med2i],"\n")
-        a = approx(c(med1i,med2i),np[c(med1i,med2i)],start:end)
+        a = approx(c(med1i,med2i),c(min1,min2),start:end)
         # then e.g.
         np[start:end] = a$y
       }
