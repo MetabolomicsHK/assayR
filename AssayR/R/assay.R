@@ -247,12 +247,6 @@ labels.with.component = function(q){
 }
 
 
-test.on.mark.s.data = function(){
-  setwd("D:/Processing/Jimi/Mark2/test1");
-  run.config("D:/metabo1-labelled.tsv", "D:/Processing/Jimi/Mark2/mzXMLsubset")
-}
-
-
 shorten.names = function(n, sep="[_.]"){
   # remove redundancy from a bunch of names (which must have the same format!)
   splt = as.data.frame(strsplit(n, sep))
@@ -810,19 +804,18 @@ ms.access.tics = function(
   return(outputbase)
 }
 
-
 run.config.tics = function(
-  file='E:/from desktop/Mark2/peak-params.txt',
-  mzpath = 'E:/from desktop/Mark2/mzXMLsubset'
+    path.to.config.tsv='config.tsv',
+    path.to.mzMLs = 'mzMLneg/'
 ){
   #
-  config = read.delim (file)
+  config = read.delim (path.to.config.tsv)
   config$C13[is.na(config$C13) | config$C13 == ""] <- 0
   config$N15[is.na(config$N15) | config$N15 == ""] <- 0
   config$H2[is.na(config$H2) | config$H2 == ""] <- 0
   print(config)
   return(ms.access.tics(
-    dir = mzpath,
+    dir = path.to.tics,
     MZS = config$mz,
     PPMs = config$ppm,
     C13 = config$C13,
@@ -832,12 +825,12 @@ run.config.tics = function(
 }
 
 run.config.peaks = function(
-  file='metabo1-labelled.tsv',
-  ticpath = './test1/20150826-100245',
+    path.to.config.tsv='config.tsv',
+    path.to.tics,
   Interactive = TRUE
 ){
 
-  config = read.delim (file)
+  config = read.delim (path.to.config.tsv)
   config$C13[is.na(config$C13) | config$C13 == ""] <- 0
   config$N15[is.na(config$N15) | config$N15 == ""] <- 0
   config$H2[is.na(config$H2) | config$H2 == ""] <- 0
@@ -1028,7 +1021,7 @@ run.config.peaks = function(
     }
   }
   print(config)
-  write.table (config, file=gsub(".tsv","-updated.tsv",file), sep="\t", row.names=FALSE)
+  write.table (config, file=gsub(".tsv","-updated.tsv",path.to.config.tsv), sep="\t", row.names=FALSE)
   return(summ)
 }
 
@@ -1045,126 +1038,17 @@ addabsentcols = function(addto, addfrom){
 }
 
 
-run.config = function(file, mzpath){
+run.config = function(
+    path.to.config.tsv='config.tsv',
+    path.to.mzMLs = 'mzMLneg/'){
   starttime = Sys.time()
-  ticpath = run.config.tics(file, mzpath)
+  ticpath = run.config.tics(path.to.config.tsv, path.to.mzMLs)
   print (Sys.time() - starttime)
-  mysummary = run.config.peaks(file, ticpath)
+  mysummary = run.config.peaks(path.to.config.tsv, ticpath)
   print (Sys.time() - starttime)
   return(mysummary)
 }
 
-
-example = function(){
-  # run config calls run.config.tics and run.config.peaks
-  # if you are going to run several configs on the
-  # same tics (why*) you'll want to call run.config.tics
-  # only once, and then run.config.peaks a bunch of times
-  # * you may need to optimize the parameters in the config
-  #   to get what you need.
-  r = run.config(
-    file='D:/Processing/Jimi/Marcus1/peak-params.txt',
-    mzpath = 'D:/Processing/Jimi/Marcus1/mzXML'
-  )
-  # r is a summary table of peak areas
-  write.csv(r,file="example.csv")
-}
-
-standards = function(){
-  setwd("C:/Metab")
-  #run.config(
-  #  file='standards1.tsv',
-  #  mzpath = 'standards1'
-  #)
-  #run.config(
-  #  file='standards2.tsv',
-  #  mzpath = 'standards2'
-  #)
-  run.config.peaks(
-    file='standards3.tsv',
-    ticpath = '20151106-122422'
-  )
-}
-
-reallyOldData = function (){
-  setwd("/home/jicawi/12Nov13")
-
-  run.config(
-    file='standards1.tsv',
-    mzpath = 'mzML'
-  )
-}
-
-F150403 = function (){
-  #setwd("/home/jicawi/F150403")
-  setwd("D:/jimi/F150403")
-
-  ## [46] "F150402_49_QE1_s1358987_M_PF_hilic45_GLUCpulseMYC1.mzML.tic.266.09-266.09.tsv"
-  ## [47] "F150402_50_QE1_s1358987_M_PF_hilic45_GLUCnpP533.mzML.tic.266.09-266.09.0.tsv"
-  # what happened to the zero??? this is a msaccess output issue!
-  # It was just that one file! Random!
-
-  p = run.config(
-    file='selected-standards1.tsv',
-    mzpath = 'F150403-mzML'
-  )
-
-  #p=run.config.peaks(
-  #  file='standards1-unlabelled.tsv',
-  #  ticpath = '20160512-130056'
-  #)
-  write.csv(p,file="standards1-selected.csv")
-
-}
-
-
-
-demo <- function(){
-  p=run.config.peaks(
-    file='../pyrimidine.tsv',
-    ticpath = '../20170127-144413'
-  )
-  write.csv(p,file="pyrimidine-results.csv")
-}
-
-
-
-farhat = function (){
-  setwd("D:/data/QE1/farhat-lab/Asta_2016-03-18_MetaboliteAssay_P3JPL1E")
-
-  ## [46] "F150402_49_QE1_s1358987_M_PF_hilic45_GLUCpulseMYC1.mzML.tic.266.09-266.09.tsv"
-  ## [47] "F150402_50_QE1_s1358987_M_PF_hilic45_GLUCnpP533.mzML.tic.266.09-266.09.0.tsv"
-  # what happened to the zero??? this is a msaccess output issue!
-  # It was just that one file! Random!
-
-  #run.config(
-  #  file='pyrimidine.tsv',
-  #  mzpath = 'mzML'
-  #)
-
-  p=run.config.peaks(
-    file='pyrimidine.tsv',
-    ticpath = '20160504-094651'
-  )
-  write.csv(p,file="pyrimidine-results2.csv")
-}
-
-
-plates = function(){
-  setwd('~/Desktop/metabaton')
-
-  #run.config.peaks(
-  #   p = run.config(
-  #     file='standards1.tsv',
-  #     mzpath = '~/Desktop/metabaton/mzXML'
-  #   )
-
-  p=run.config.peaks(
-    file='standards1.tsv',
-    ticpath = '20160302-112532'
-  )
-  write.csv(p,file="plates-standards1.csv")
-}
 
 
 # # biocLite("KEGGREST") to install

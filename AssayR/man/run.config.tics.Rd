@@ -2,7 +2,11 @@
 \alias{run.config.tics}
 \title{run.config.tics}
 \usage{
-run.config.tics(path.to.config.tsv, path.to.mzML)
+run.config.tics(path.to.config.tsv='config.tsv', path.to.mzMLs='mzMLneg/')
+}
+\arguments{
+    \item{path.to.config.tsv}{path to a tab-delimited table of config data, see below}
+    \item{path.to.mzMLs}{a directory containing the mzML files to be analysed}
 }
 \description{
 run.config.tics calls msaccess on mzML files to exctract ion

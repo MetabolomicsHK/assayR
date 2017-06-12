@@ -2,7 +2,12 @@
 \alias{run.config.peaks}
 \title{run.config.peaks}
 \usage{
-run.config.peaks(path.to.config.tsv, path.to.tics)
+run.config.peaks(path.to.config.tsv='config.tsv', path.to.tics, Interactive=TRUE)
+}
+\arguments{
+    \item{path.to.config.tsv}{path to a tab-delimited table of config data, see below}
+    \item{path.to.tics}{path to the tics files generated during run.config.tics}
+    \item{Interactive}{optionally run interactively}
 }
 \description{
 run.config.peaks take the config definitions and the path to
