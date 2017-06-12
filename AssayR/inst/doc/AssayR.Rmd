@@ -10,10 +10,6 @@ vignette: >
 
 ---
 
-<!--
-don't forget to build this vignette with 
-devtools::build_vignettes() 
--->
 
 
 ```{r setup, include=FALSE}

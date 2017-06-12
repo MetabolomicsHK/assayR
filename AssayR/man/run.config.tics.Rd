@@ -2,7 +2,7 @@
 \alias{run.config.tics}
 \title{run.config.tics}
 \usage{
-path.to.tics <- run.config.tics(path.to.config.tsv, path.to.mzML)
+run.config.tics(path.to.config.tsv, path.to.mzML)
 }
 \description{
 run.config.tics calls msaccess on mzML files to exctract ion

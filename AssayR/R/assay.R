@@ -1167,47 +1167,47 @@ plates = function(){
 }
 
 
-# biocLite("KEGGREST") to install
-
-
-mz = function(name=NULL,mass=NULL,z=-1,C13=0,N15=0){
-  if(is.null(mass)){
-    if(is.null(name)){
-      cat("You must specify either mass or name")
-      return(-2)
-    }
-    mass = unlist(lapply(name, kegg_exact_mass))
-  }
-  iC13 = 1.003355
-  iN15 = 0.9970348934
-  H = 1.0073
-  mass = mass + z*H
-  mass = mass + C13*iC13
-  mass = mass + N15*N15
-  if(z==0) z=1
-  mz = mass / abs(z)
-  mz[mz < 0] = round(mz[mz<0])
-  return(mz)
-}
-
-kegg_exact_mass = function(name){
-  r = keggFind("compound",name)
-  patt = unlist(paste("(^|; )",name,"(;|$)",sep=""))
-  g = grep(patt, r, ignore.case=TRUE)
-  if(length(g) < 1){
-    cat("No results :(\n")
-    return(-1)
-  }
-  k = unlist(lapply(names(r)[g], function(n){
-    k=keggGet(n)
-    return(as.numeric(k[[1]]$EXACT_MASS))
-  }))
-  if(min(k) != max(k)){
-    cat("More than one result, with different masses :(\n")
-    return()
-  }
-  return(k[1])
-}
+# # biocLite("KEGGREST") to install
+#
+#
+# mz = function(name=NULL,mass=NULL,z=-1,C13=0,N15=0){
+#   if(is.null(mass)){
+#     if(is.null(name)){
+#       cat("You must specify either mass or name")
+#       return(-2)
+#     }
+#     mass = unlist(lapply(name, kegg_exact_mass))
+#   }
+#   iC13 = 1.003355
+#   iN15 = 0.9970348934
+#   H = 1.0073
+#   mass = mass + z*H
+#   mass = mass + C13*iC13
+#   mass = mass + N15*N15
+#   if(z==0) z=1
+#   mz = mass / abs(z)
+#   mz[mz < 0] = round(mz[mz<0])
+#   return(mz)
+# }
+#
+# kegg_exact_mass = function(name){
+#   r = keggFind("compound",name)
+#   patt = unlist(paste("(^|; )",name,"(;|$)",sep=""))
+#   g = grep(patt, r, ignore.case=TRUE)
+#   if(length(g) < 1){
+#     cat("No results :(\n")
+#     return(-1)
+#   }
+#   k = unlist(lapply(names(r)[g], function(n){
+#     k=keggGet(n)
+#     return(as.numeric(k[[1]]$EXACT_MASS))
+#   }))
+#   if(min(k) != max(k)){
+#     cat("More than one result, with different masses :(\n")
+#     return()
+#   }
+#   return(k[1])
+# }
 
 
 

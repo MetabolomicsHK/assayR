@@ -2,7 +2,7 @@
 \alias{run.config.peaks}
 \title{run.config.peaks}
 \usage{
-p <- run.config.peaks(path.to.config.tsv, path.to.tics)
+run.config.peaks(path.to.config.tsv, path.to.tics)
 }
 \description{
 run.config.peaks take the config definitions and the path to
