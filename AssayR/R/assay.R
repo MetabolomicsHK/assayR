@@ -183,7 +183,7 @@ assay.plot = function(q, repeat.inj.pattern = ".*_n[[:digit:]]-(.*)",
   #s = reshape.assay.result2(q, xpatt= condition.pattern, ypatt= "^(.*)$", sd)
 
   par(las=2)
-  par(mar=c(10,3,3,4))
+  par(mar=c(10,10,3,4))
   barplot(
     as.matrix(q),
     xlim=c(0, ncol(q) + 5),
@@ -815,7 +815,7 @@ run.config.tics = function(
   config$H2[is.na(config$H2) | config$H2 == ""] <- 0
   print(config)
   return(ms.access.tics(
-    dir = path.to.tics,
+    dir = path.to.mzMLs,
     MZS = config$mz,
     PPMs = config$ppm,
     C13 = config$C13,
@@ -839,7 +839,7 @@ run.config.peaks = function(
   # check if all the files necessary exist in this place?
   notfound = 0
   for(i in 1:length(config[,1])){
-    path = unlist(paste(ticpath,config$mz[i],sep="/"))
+    path = unlist(paste(path.to.tics,config$mz[i],sep="/"))
     if(! file.exists(path)){
       notfound = notfound + 1
       cat(path," not found!\n")
@@ -852,7 +852,7 @@ run.config.peaks = function(
   # OK SO FAR? THE LET'S PROCEED!
   summ = data.frame()
   for(i in 1:length(config[,1])){
-    path = unlist(paste(ticpath,config$mz[i],sep="/"))
+    path = unlist(paste(path.to.tics,config$mz[i],sep="/"))
     #pngs in the current directory!
 
     # TODO: Here we can optionally enter a loop
@@ -987,7 +987,7 @@ run.config.peaks = function(
       filename <- gsub("/","(fslash)",filename)
       filename <- gsub("\\*","(aster)",filename)
       filename <- gsub("\\+","(pos)",filename)
-      png(unlist(paste(filename,".png")))
+      png(unlist(paste("xic_",filename,".png")))
       gp = get.peaks(
         path = path,
         pattern = '.tsv',
