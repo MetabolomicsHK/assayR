@@ -2,35 +2,34 @@
 
 library(mzR)
 
+
+
+
+
+
 path <- "C:/Users/Jimi/Desktop/data/farhat-lab/Asta_2017-05-11_MetabolicFlux_Q33PL1J/mzMLneg"
 file <- "02_not-treated-1.mzML"
 mzxml <- paste(path, file, sep="/")
 
+tic.file(file, 146,147, path)
 
-#aa <- openMSfile(mzxml, backend = "pwiz")
-aa <- openMSfile(mzxml)
-runInfo(aa)
-instrumentInfo(aa)
-
-
-v <- 1:100
-dim(v) <- 100
-h <- t(apply(v, 1, function(i){
-    return(unlist(header(aa,i)))
-}))
-
-
-pl <- peaks(aa,8)
-peaksCount(aa,8)
-head(pl)
-plot(pl[,1], pl[,2], type="h", lwd=1)
-
-plot(xic(aa,146,147), type='l')
+tic.file <- function(mzML.file, mzlo, mzhi, input.dir='.', output.dir='.'){
+    tic.file.path <- paste(output.dir,
+                           '/',
+                           mzML.file,
+                           '.tic.',
+                           format(mzlo,nsmall=2,digits=2), '-',
+                           format(mzhi,nsmall=2,digits=2),
+                           '.tsv',
+                           sep='')
+    aa <- openMSfile(paste(input.dir,mzML.file,sep='/'))
+    tic <- tic(aa, mzlo, mzhi)
+    cat(c(paste("#",mzML.file),"\n"), file=tic.file.path)
+    write.table(tic, row.names = FALSE, col.names = TRUE, append = TRUE, file=tic.file.path)
+}
 
 
-
-
-xic <- function(aa,mzlo,mzhi){
+tic <- function(aa,mzlo,mzhi){
 
     v <- 1:runInfo(aa)$scanCount
     dim(v) <- length(v)

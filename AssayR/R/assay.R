@@ -384,7 +384,8 @@ limit.tic = function(tic, rt1, rt2){
 }
 
 read.tic = function(file){
-  tic = read.delim(file,skip=1)
+    #tic = read.delim(file,skip=1)
+    tic = read.delim(file)
   tic$rt = tic$rt/60
   return(tic)
 }
@@ -675,133 +676,296 @@ get.peaks = function(path=".",pattern=".tsv",rt.min=0,rt.max=Inf,seconds=10,thre
 
 
 ms.access.tics = function(
-  dir = "D:/Processing/Jimi/Marcus1/mzXML",
-  MZS = c(145.0142, 115.0037, 147.0299, 117.0193),
-  PPMs = c(2.5, 2.5, 2.5, 2.5),
-  C13 = c(0, 0, 0, 0),
-  N15 = c(0, 0, 0, 0),
-  H2 = c(0, 0, 0, 0),
-  EVENTS
+    dir = "D:/Processing/Jimi/Marcus1/mzXML",
+    MZS = c(145.0142, 115.0037, 147.0299, 117.0193),
+    PPMs = c(2.5, 2.5, 2.5, 2.5),
+    C13 = c(0, 0, 0, 0),
+    N15 = c(0, 0, 0, 0),
+    H2 = c(0, 0, 0, 0),
+    EVENTS
 ){
-  olddir = getwd()
-  setwd(dir)
+    olddir = getwd()
+    setwd(dir)
 
-  # path to msaccess (if it's not already in your path)
-  msaccess <- c("msaccess")
-  if(file.exists("/home/jicawi/bin/msaccess")){
-    msaccess <- c("/home/jicawi/bin/msaccess")
-  }
-  # it's quicker if these are centroided
-  FILES <- list.files(recursive=TRUE, full.names=TRUE, pattern="\\.mzML")
-  cat("FILES:")
-  cat (FILES)
-  show(FILES)
-
-  stamp = strftime(Sys.time(), format="%Y%m%d-%H%M%S")
-  outputbase = unlist(paste(olddir,stamp,sep="/"))
-  dir.create(outputbase)
-
-  # TODO: Here we need to do something about isotope labels
-  C13delta = 13.0033548378 - 12
-  N15delta = 15.0001088982 - 14.003074004
-  H2delta = 2.0141017778 - 1.00782503207
-
-  for (j in 1:length(MZS)){
-
-
-
-    PPM = PPMs[j]
-    mlo = 1-PPM/1000000
-    mhi = 1+PPM/1000000
-    mzlo = MZS[j] * mlo
-    mzhi = MZS[j] * mhi
-    outputdir = unlist(paste(outputbase,MZS[j],sep="/"))
-    dir.create(outputdir)
-
-    C13max = C13[j]
-    N15max = N15[j]
-    H2max  = H2[j]
-    EVENT = EVENTS[j]
-
-    # C13 LOOP
-    for(i_C13 in 0:C13max){
-
-      for(i_N15 in 0:N15max){
-
-        for(i_H2 in 0:H2max){
-          cat("\n------------------------------------------------------\n")
-          cat("mz =",mzlo,"..",mzhi,"\n")
-          cat("13C:",i_C13,"15N:",i_N15,"2H:",i_H2,"\n")
-
-          delta = i_C13*C13delta + i_N15*N15delta + i_H2*H2delta
-
-          cat("delta =",delta,"\n")
-
-          imzlo = mzlo + delta
-          imzhi = mzhi + delta
-
-          ########################## HERE IS WHERE...
-          ##################### we can track which XICs are already extracted and skip over them
-
-          cat("isotope mz =",imzlo,"..",imzhi,"\n")
-
-
-          # warning: shorten.names will fail if you try to use . or _ as sep...
-          isoname = ""
-          if(i_C13 > 0){
-            isoname = paste(isoname,"13C",i_C13,sep='-')
-          }
-          if(i_N15 > 0){
-            isoname = paste(isoname,"15N",i_N15,sep='-')
-          }
-          if(i_H2 > 0){
-            isoname = paste(isoname,"2H",i_H2,sep='-')
-          }
-          if(isoname == ""){
-            isoname = "0"
-          }
-
-
-
-          cat("name",isoname,"\n")
-
-          for (i in 1:length(FILES)){
-            cat(FILES[i],"\n")
-            l1 = list.files(outputdir) # list files
-            system (
-              paste(
-                msaccess,
-                "-x \"",
-                # use the actual m/z measured,
-                #paste("tic mz=",imzlo,",",imzhi,isoname,sep=""),
-                # or that dervied from?
-                paste("tic mz=",imzlo,",",imzhi,sep=""),
-                "delimiter=tab",
-                "\"",
-                "--filter \"",
-                paste("scanEvent ",EVENT),
-                "\"",
-                "-o",outputdir,
-                "-v",
-                FILES[i]
-              )
-            )
-            l2 = list.files(outputdir) # list files again
-
-            # now grab the name of the new file and set about renaming it!
-            newlygeneratedfile = setdiff(l2,l1) # filename
-            isofilename = sub("\\.tsv$",paste(".",isoname,".tsv",sep=""),newlygeneratedfile)
-            src = paste(outputdir,newlygeneratedfile,sep="/")
-            dest = paste(outputdir,isofilename,sep="/")
-            file.rename(src,dest)
-            cat("file",newlygeneratedfile,"renamed to",isofilename,"in",outputdir,"\n")
-          }
-        }
-      }
+    # path to msaccess (if it's not already in your path)
+    msaccess <- c("msaccess")
+    if(file.exists("/home/jicawi/bin/msaccess")){
+        msaccess <- c("/home/jicawi/bin/msaccess")
     }
-  }
-  setwd(olddir)
-  return(outputbase)
+    # it's quicker if these are centroided
+    FILES <- list.files(recursive=TRUE, full.names=TRUE, pattern="\\.mzML")
+    cat("FILES:")
+    cat (FILES)
+    show(FILES)
+
+    stamp = strftime(Sys.time(), format="%Y%m%d-%H%M%S")
+    outputbase = unlist(paste(olddir,stamp,sep="/"))
+    dir.create(outputbase)
+
+    # TODO: Here we need to do something about isotope labels
+    C13delta = 13.0033548378 - 12
+    N15delta = 15.0001088982 - 14.003074004
+    H2delta = 2.0141017778 - 1.00782503207
+
+    for (j in 1:length(MZS)){
+
+
+
+        PPM = PPMs[j]
+        mlo = 1-PPM/1000000
+        mhi = 1+PPM/1000000
+        mzlo = MZS[j] * mlo
+        mzhi = MZS[j] * mhi
+        outputdir = unlist(paste(outputbase,MZS[j],sep="/"))
+        dir.create(outputdir)
+
+        C13max = C13[j]
+        N15max = N15[j]
+        H2max  = H2[j]
+        EVENT = EVENTS[j]
+
+        # C13 LOOP
+        for(i_C13 in 0:C13max){
+
+            for(i_N15 in 0:N15max){
+
+                for(i_H2 in 0:H2max){
+                    cat("\n------------------------------------------------------\n")
+                    cat("mz =",mzlo,"..",mzhi,"\n")
+                    cat("13C:",i_C13,"15N:",i_N15,"2H:",i_H2,"\n")
+
+                    delta = i_C13*C13delta + i_N15*N15delta + i_H2*H2delta
+
+                    cat("delta =",delta,"\n")
+
+                    imzlo = mzlo + delta
+                    imzhi = mzhi + delta
+
+                    ########################## HERE IS WHERE...
+                    ##################### we can track which XICs are already extracted and skip over them
+
+                    cat("isotope mz =",imzlo,"..",imzhi,"\n")
+
+
+                    # warning: shorten.names will fail if you try to use . or _ as sep...
+                    isoname = ""
+                    if(i_C13 > 0){
+                        isoname = paste(isoname,"13C",i_C13,sep='-')
+                    }
+                    if(i_N15 > 0){
+                        isoname = paste(isoname,"15N",i_N15,sep='-')
+                    }
+                    if(i_H2 > 0){
+                        isoname = paste(isoname,"2H",i_H2,sep='-')
+                    }
+                    if(isoname == ""){
+                        isoname = "0"
+                    }
+
+
+
+                    cat("name",isoname,"\n")
+
+                    for (i in 1:length(FILES)){
+                        cat(FILES[i],"\n")
+                        l1 = list.files(outputdir) # list files
+                        system (
+                            paste(
+                                msaccess,
+                                "-x \"",
+                                # use the actual m/z measured,
+                                #paste("tic mz=",imzlo,",",imzhi,isoname,sep=""),
+                                # or that dervied from?
+                                paste("tic mz=",imzlo,",",imzhi,sep=""),
+                                "delimiter=tab",
+                                "\"",
+                                "--filter \"",
+                                paste("scanEvent ",EVENT),
+                                "\"",
+                                "-o",outputdir,
+                                "-v",
+                                FILES[i]
+                            )
+                        )
+                        l2 = list.files(outputdir) # list files again
+
+                        # now grab the name of the new file and set about renaming it!
+                        newlygeneratedfile = setdiff(l2,l1) # filename
+                        isofilename = sub("\\.tsv$",paste(".",isoname,".tsv",sep=""),newlygeneratedfile)
+                        src = paste(outputdir,newlygeneratedfile,sep="/")
+                        dest = paste(outputdir,isofilename,sep="/")
+                        file.rename(src,dest)
+                        cat("file",newlygeneratedfile,"renamed to",isofilename,"in",outputdir,"\n")
+                    }
+                }
+            }
+        }
+    }
+    setwd(olddir)
+    return(outputbase)
+}
+
+mzR.tics = function(
+    dir = ".",
+    MZS = c(145.0142, 115.0037, 147.0299, 117.0193),
+    PPMs = c(2.5, 2.5, 2.5, 2.5),
+    C13 = c(0, 0, 0, 0),
+    N15 = c(0, 0, 0, 0),
+    H2 = c(0, 0, 0, 0)
+){
+    olddir = getwd()
+    setwd(dir)
+
+    # it's quicker if these are centroided
+    FILES <- list.files(recursive=TRUE, full.names=TRUE, pattern="\\.mzML")
+    cat("FILES:")
+    cat (FILES)
+    show(FILES)
+
+    stamp = strftime(Sys.time(), format="%Y%m%d-%H%M%S")
+    outputbase = unlist(paste(olddir,stamp,sep="/"))
+    dir.create(outputbase)
+
+    # TODO: Here we need to do something about isotope labels
+    C13delta = 13.0033548378 - 12
+    N15delta = 15.0001088982 - 14.003074004
+    H2delta = 2.0141017778 - 1.00782503207
+
+    for (j in 1:length(MZS)){
+
+
+
+        PPM = PPMs[j]
+        mlo = 1-PPM/1000000
+        mhi = 1+PPM/1000000
+        mzlo = MZS[j] * mlo
+        mzhi = MZS[j] * mhi
+        outputdir = unlist(paste(outputbase,MZS[j],sep="/"))
+        dir.create(outputdir)
+
+        C13max = C13[j]
+        N15max = N15[j]
+        H2max  = H2[j]
+
+        # C13 LOOP
+        for(i_C13 in 0:C13max){
+
+            for(i_N15 in 0:N15max){
+
+                for(i_H2 in 0:H2max){
+                    cat("\n------------------------------------------------------\n")
+                    cat("mz =",mzlo,"..",mzhi,"\n")
+                    cat("13C:",i_C13,"15N:",i_N15,"2H:",i_H2,"\n")
+
+                    delta = i_C13*C13delta + i_N15*N15delta + i_H2*H2delta
+
+                    cat("delta =",delta,"\n")
+
+                    imzlo = mzlo + delta
+                    imzhi = mzhi + delta
+
+                    ########################## HERE IS WHERE...
+                    ##################### we can track which XICs are already extracted and skip over them
+
+                    cat("isotope mz =",imzlo,"..",imzhi,"\n")
+
+
+                    # warning: shorten.names will fail if you try to use . or _ as sep...
+                    isoname = ""
+                    if(i_C13 > 0){
+                        isoname = paste(isoname,"13C",i_C13,sep='-')
+                    }
+                    if(i_N15 > 0){
+                        isoname = paste(isoname,"15N",i_N15,sep='-')
+                    }
+                    if(i_H2 > 0){
+                        isoname = paste(isoname,"2H",i_H2,sep='-')
+                    }
+                    if(isoname == ""){
+                        isoname = "0"
+                    }
+
+
+
+                    cat("name",isoname,"\n")
+
+                    for (i in 1:length(FILES)){
+                        cat(FILES[i],"\n")
+                        l1 = list.files(outputdir) # list files
+
+                        #HERE1234
+
+
+                        tic.file(
+                            FILES[i],
+                            imzlo,
+                            imzhi,
+                            output.dir=outputdir
+                        )
+
+
+                        l2 = list.files(outputdir) # list files again
+
+                        # now grab the name of the new file and set about renaming it!
+                        newlygeneratedfile = setdiff(l2,l1) # filename
+                        isofilename = sub("\\.tsv$",paste(".",isoname,".tsv",sep=""),newlygeneratedfile)
+                        src = paste(outputdir,newlygeneratedfile,sep="/")
+                        dest = paste(outputdir,isofilename,sep="/")
+                        file.rename(src,dest)
+                        cat("file",newlygeneratedfile,"renamed to",isofilename,"in",outputdir,"\n")
+                    }
+                }
+            }
+        }
+    }
+    setwd(olddir)
+    return(outputbase)
+}
+
+
+tic.file <- function(mzML.file, mzlo, mzhi, input.dir='.', output.dir='.'){
+    tic.file.path <- paste(output.dir,
+                           '/',
+                           mzML.file,
+                           '.tic.',
+                           format(mzlo,nsmall=2,digits=2), '-',
+                           format(mzhi,nsmall=2,digits=2),
+                           '.tsv',
+                           sep='')
+    aa <- openMSfile(paste(input.dir,mzML.file,sep='/'))
+    tic <- tic(aa, mzlo, mzhi)
+    #cat(c(paste("#",mzML.file),"\n"), file=tic.file.path)
+    write.table(tic, row.names = FALSE, col.names = TRUE, file=tic.file.path, sep = "\t")
+}
+
+
+tic <- function(aa,mzlo,mzhi){
+
+    v <- 1:runInfo(aa)$scanCount
+    dim(v) <- length(v)
+
+
+    h <- t(apply(v, 1, function(i){
+        h <- header(aa,i)
+        return(c(h$lowMZ,h$highMZ))
+    }))
+
+    s <- which(h[,1] <= mzlo & mzhi <= h[,2])
+    if(length(s) == 0){
+        print(paste("Error: ( mzlo mzhi ) = (",mzlo, mzhi,") did no match any scan ranges"))
+    }
+    dim(s) <- length(s)
+
+    x <- t(apply(s, 1, function(i){
+
+        p<-as.data.frame(peaks(aa,i))
+        t<-sum(p[mzlo <= p[,1] & p[,1] <= mzhi,2])
+        h <- header(aa, i)
+        rt <- h$retentionTime
+        return(c(rt,t))
+    }))
+    colnames(x) <- c("rt","sumIntensity")
+    return (x)
 }
 
 run.config.tics = function(
@@ -814,14 +978,21 @@ run.config.tics = function(
   config$N15[is.na(config$N15) | config$N15 == ""] <- 0
   config$H2[is.na(config$H2) | config$H2 == ""] <- 0
   print(config)
-  return(ms.access.tics(
-    dir = path.to.mzMLs,
-    MZS = config$mz,
-    PPMs = config$ppm,
-    C13 = config$C13,
-    N15 = config$N15,
-    H2 = config$H2,
-    EVENTS = config$event))
+  return(mzR.tics(
+      dir = path.to.mzMLs,
+      MZS = config$mz,
+      PPMs = config$ppm,
+      C13 = config$C13,
+      N15 = config$N15,
+      H2 = config$H2))
+  # return(ms.access.tics(
+  #     dir = path.to.mzMLs,
+  #     MZS = config$mz,
+  #     PPMs = config$ppm,
+  #     C13 = config$C13,
+  #     N15 = config$N15,
+  #     H2 = config$H2,
+  #     EVENTS = config$event))
 }
 
 run.config.peaks = function(
