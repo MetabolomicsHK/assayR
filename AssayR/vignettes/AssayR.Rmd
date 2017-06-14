@@ -12,7 +12,7 @@ vignette: >
 
 <!--
 don't forget to build this vignette with 
-devtools::build_vignettes() 
+devtools::build_vignettes("AssayR") 
 -->
 
 
@@ -28,7 +28,7 @@ labelled tracer experiments.
 
 Given a table of desired compounds, in a specific format, AssayR will extract
 chromatograms for those compounds, and interactively allow you to optimise peak
-detection.  Peak detection is performed on the maximal trace for the whole data
+detection.  Peak detection is performed on sthe maximal trace for the whole data
 set, including any isotopes you've defined, and so the approach is immune to 
 missing peaks.
 
@@ -36,17 +36,13 @@ The output is a table of results (peak areas).  With a labelling experiment,
 there's also graphical output in the form of stacked bars to summarise the 
 information (both percentage and aboslute).
 
-AssayR works with Proteowizard tools msaccess and msconvert, and
-expects to find these tools on your path.
-
 To install AssayR (first install R and optionally RStudio) run the following
 commands in R:
 
-    install.packages(c("RColorBrewer", "reshape2", "stringr"))
+    install.packages(c("RColorBrewer", "reshape2", "stringr","mzR"))
     install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.0.tar.gz", repos = NULL, type = "source")
 
-To install ProteoWizard, please visit 
-[the ProteoWizard website](http://proteowizard.sourceforge.net/).  If you have 
+If you have 
 not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 
 heartily recommend 
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).

@@ -28,21 +28,24 @@ labelled tracer experiments.
 
 Given a table of desired compounds, in a specific format, AssayR will extract
 chromatograms for those compounds, and interactively allow you to optimise peak
-detection.  Peak detection is performed on the maximal trace for the whole data
+detection.  Peak detection is performed on sthe maximal trace for the whole data
 set, including any isotopes you've defined, and so the approach is immune to 
 missing peaks.
 
-The output is a table of results.  With a labelling experiment, there's also
-graphical output in the form of stacked bars to summarise the information.
-
-AssayR works with Proteowizard tools msaccess and msconvert, and
-expects to find these tools on your path.
+The output is a table of results (peak areas).  With a labelling experiment, 
+there's also graphical output in the form of stacked bars to summarise the 
+information (both percentage and aboslute).
 
 To install AssayR (first install R and optionally RStudio) run the following
 commands in R:
 
-    install.packages(c("RColorBrewer", "reshape2", "stringr"))
+    install.packages(c("RColorBrewer", "reshape2", "stringr","mzR"))
     install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.0.tar.gz", repos = NULL, type = "source")
+
+If you have 
+not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 
+heartily recommend 
+[RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
 ## Summary of use
 
@@ -76,8 +79,17 @@ assay.plotter(results)
 
 ## Config file
 
-There are example config files with this package.  The format
-should be a tsv, as readable by `read.delim`, and the file
+There are example config files with this package.  To access them use a command
+like this:
+
+    system.file("extdata/configs/pyrimidine.tsv", package = "AssayR")
+
+And to like the files available:
+
+    list.files(system.file("extdata/configs", package = "AssayR"))
+
+
+The format should be a tsv, as readable by `read.delim`, and the file
 should have the following columns:
 
 * target

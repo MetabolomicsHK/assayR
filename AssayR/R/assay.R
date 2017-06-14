@@ -259,6 +259,11 @@ shorten.names = function(n, sep="[_.]"){
 
 
 standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
+  if(length(list.of.TICs)==0){
+      print("ERROR: list.of.TICs is empty")
+      return()
+  }
+
   # first, let's get some basic info on the data...
   median.diffs = c()
   min.RTs = c()
@@ -290,6 +295,11 @@ standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
   }
   # now we'll calculate the maximum chromatogram, which will contain
   # all the peaks we can to detect...
+
+  if(ncol(chromatogram) < 2){
+      print("ERROR: chromatogram table contains no data")
+      return()
+  }
 
   chromatogram$max = apply(chromatogram[2:ncol(chromatogram)],1,max)
   ### (though maybe this shouldn't be part of this function as the function name suggests nothing about it)
