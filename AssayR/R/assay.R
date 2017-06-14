@@ -246,7 +246,7 @@ labels.with.component = function(q){
   return(r)
 }
 
-
+## note: calls to the following should be optional!
 shorten.names = function(n, sep="[_.]"){
   # remove redundancy from a bunch of names (which must have the same format!)
   splt = as.data.frame(strsplit(n, sep))
@@ -281,9 +281,12 @@ standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
   # now generate an x series (retention time with regular intervals)
   RTs = seq(min.RT, max.RT, med.diff)
   # now we can interpolate...
+  ## note: calls to the following should be optional!
   n = shorten.names(names(list.of.TICs))
   chromatogram = data.frame(rt = RTs)
   for(i in 1:length(list.of.TICs)){
+      # this could be apply instead of for, if we first filter out which
+      # chromatograms match the omit pattern
     name = n[i]
     ######################### THIS IS WHERE...
     ######################## we can omit the standards from peak picking.
