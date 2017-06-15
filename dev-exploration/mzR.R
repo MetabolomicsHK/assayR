@@ -24,7 +24,7 @@ logmass <- function(mz, int, ppm.resolution){
 convert.ms.files.to.lcms.files <- function(
         path.to.ms.files = '.',
         pattern = '.mzML',
-        ppm.resolution = 1,
+        ppm.resolution = 1
     ){
     files <- list.files(path = path.to.ms.files, pattern = pattern,
                         full.names = TRUE, recursive = TRUE, ignore.case = TRUE)

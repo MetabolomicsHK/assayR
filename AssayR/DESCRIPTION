@@ -1,7 +1,7 @@
 Package: AssayR
 Type: Package
 Title: Targetted Analysis For Isotopically-Labelled Hi-Res Mass-Spec
-Version: 0.1.1
+Version: 0.1.2
 Author: Jimi Wills <jimi.wills@ed.ac.uk>
 Maintainer: Jimi Wills <jimi.wills@ed.ac.uk>
 Description: This item requires more writing.

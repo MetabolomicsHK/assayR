@@ -26,7 +26,7 @@
 #
 # 'Interactive' with Yes (capital Y) is not recognized. --- done?
 #
-# Handle question mark in metabolite name. --- done?
+# Handle question mark in metabolite name. --- done? --- handle slashes!
 #
 # Change 'samples' to datapoints - perhaps convert to RT width of peak??  --- done?
 # done, now requires seconds instead of samples.  tested okay
@@ -258,7 +258,7 @@ shorten.names = function(n, sep="[_.]"){
 
 
 
-standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
+standardize.RTs = function(list.of.TICs, pattern="std|standard", match.mode="omit", shorten.col.names=TRUE){
   if(length(list.of.TICs)==0){
       print("ERROR: list.of.TICs is empty")
       return()
@@ -282,7 +282,10 @@ standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
   RTs = seq(min.RT, max.RT, med.diff)
   # now we can interpolate...
   ## note: calls to the following should be optional!
-  n = shorten.names(names(list.of.TICs))
+  n <- names(list.of.TICs)
+  if(shorten.col.names){
+      n = shorten.names(n)
+  }
   chromatogram = data.frame(rt = RTs)
   for(i in 1:length(list.of.TICs)){
       # this could be apply instead of for, if we first filter out which
@@ -290,7 +293,11 @@ standardize.RTs = function(list.of.TICs, omit.pattern="std|standard"){
     name = n[i]
     ######################### THIS IS WHERE...
     ######################## we can omit the standards from peak picking.
-    if(length(grep(omit.pattern, name)) == 0){
+    if(
+        (length(grep(pattern, name)) == 0 && match.mode == "omit")
+        ||
+        length(grep(pattern, name)) != 0
+         ){
       tic = list.of.TICs[[i]]
       interp = approx(tic$rt, tic$sumIntensity, RTs)
       chromatogram[name] = interp$y
@@ -562,7 +569,8 @@ detect.peaks = function(tic, samples=20, wavethresh=2e4, normlim=5){
   return (r)
 }
 
-get.peaks = function(path=".",pattern=".tsv",rt.min=0,rt.max=Inf,seconds=10,threshold=1e7){
+get.peaks = function(path=".",pattern=".tsv",rt.min=0,rt.max=Inf,seconds=10,threshold=1e7,
+                     chrom.pattern="std|standard", chrom.match.mode="omit", shorten.col.names=TRUE){
 
   initialpath=getwd()
   setwd(path)
@@ -592,7 +600,7 @@ get.peaks = function(path=".",pattern=".tsv",rt.min=0,rt.max=Inf,seconds=10,thre
   setwd(initialpath)
 
 
-  x = standardize.RTs(tics)
+  x = standardize.RTs(tics,pattern=chrom.pattern, match.mode=chrom.match.mode, shorten.col.names=shorten.col.names)
 
 
   ################## HERE IS WHERE
@@ -1011,7 +1019,8 @@ run.config.tics = function(
 run.config.peaks = function(
     path.to.config.tsv='config.tsv',
     path.to.tics,
-  Interactive = TRUE
+  Interactive = TRUE,
+  chrom.pattern="std|standard", chrom.match.mode="omit", shorten.col.names=TRUE
 ){
 
   config = read.delim (path.to.config.tsv)
@@ -1062,7 +1071,10 @@ run.config.peaks = function(
           rt.min = config$rt.min[i],
           rt.max = config$rt.max[i],
           seconds = config$seconds[i],
-          threshold = config$threshold[i]
+          threshold = config$threshold[i],
+          chrom.pattern=chrom.pattern,
+          chrom.match.mode=chrom.match.mode,
+          shorten.col.names=shorten.col.names
         )
 
         title(main=config$name[i], sub="shading represents detected peak")
@@ -1158,7 +1170,10 @@ run.config.peaks = function(
         rt.min = config$rt.min[i],
         rt.max = config$rt.max[i],
         seconds = config$seconds[i],
-        threshold = config$threshold[i]
+        threshold = config$threshold[i],
+        chrom.pattern=chrom.pattern,
+        chrom.match.mode=chrom.match.mode,
+        shorten.col.names=shorten.col.names
       )
     }
 
@@ -1178,7 +1193,10 @@ run.config.peaks = function(
         rt.min = config$rt.min[i],
         rt.max = config$rt.max[i],
         seconds = config$seconds[i],
-        threshold = config$threshold[i]
+        threshold = config$threshold[i],
+        chrom.pattern=chrom.pattern,
+        chrom.match.mode=chrom.match.mode,
+        shorten.col.names=shorten.col.names
       )
 
 
@@ -1224,11 +1242,15 @@ addabsentcols = function(addto, addfrom){
 
 run.config = function(
     path.to.config.tsv='config.tsv',
-    path.to.mzMLs = 'mzMLneg/'){
+    path.to.mzMLs = 'mzMLneg/',
+    chrom.pattern="std|standard", chrom.match.mode="omit", shorten.col.names=TRUE){
   starttime = Sys.time()
   ticpath = run.config.tics(path.to.config.tsv, path.to.mzMLs)
   print (Sys.time() - starttime)
-  mysummary = run.config.peaks(path.to.config.tsv, ticpath)
+  mysummary = run.config.peaks(path.to.config.tsv, ticpath,
+                               chrom.pattern=chrom.pattern,
+                               chrom.match.mode=chrom.match.mode,
+                               shorten.col.names=shorten.col.names)
   print (Sys.time() - starttime)
   return(mysummary)
 }
