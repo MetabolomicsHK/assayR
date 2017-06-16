@@ -1040,7 +1040,7 @@ run.config.peaks = function(
         )
         ################### THIS IS WHERE...
         ############### we can try to fix that crash-on-empty-first-XIC error.
-        if(nrow(s)==0){ # if s is empty, do nothin
+        if(length(s) == 0 || nrow(s)==0){ # if s is empty, do nothin
             # do nothing!
         } else if(nrow(summ)==0){ #if summ is yet empty, set it to s
             summ = s
@@ -1084,7 +1084,8 @@ run.config.peak = function(
     return()
   }
   # OK SO FAR? THE LET'S PROCEED!
-  if(i < length(config[,1])){
+  i<-index
+  if(i <= length(config[,1])){
     path = unlist(paste(path.to.tics,config$mz[i],sep="/"))
     #pngs in the current directory!
 
