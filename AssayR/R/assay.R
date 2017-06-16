@@ -1017,9 +1017,49 @@ run.config.tics = function(
   #     EVENTS = config$event))
 }
 
+
 run.config.peaks = function(
     path.to.config.tsv='config.tsv',
     path.to.tics,
+    Interactive = TRUE,
+    chrom.pattern="std|standard", chrom.match.mode="omit", shorten.col.names=TRUE
+){
+
+    config = read.delim (path.to.config.tsv)
+
+    summ = data.frame()
+    for(i in 1:length(config[,1])){
+        s<-run.config.peak(
+            path.to.config.tsv=path.to.config.tsv,
+            path.to.tics=path.to.tics,
+            index=i,
+            Interactive=Interactive,
+            chrom.pattern=chrom.pattern,
+            chrom.match.mode=chrom.match.mode,
+            shorten.col.names=shorten.col.names
+        )
+        ################### THIS IS WHERE...
+        ############### we can try to fix that crash-on-empty-first-XIC error.
+        if(nrow(s)==0){ # if s is empty, do nothin
+            # do nothing!
+        } else if(nrow(summ)==0){ #if summ is yet empty, set it to s
+            summ = s
+        } else {
+            # otherwise, add missing columns and bind rows
+            s = addabsentcols(s, summ)
+            summ = addabsentcols(summ, s)
+            summ = rbind(summ, s)
+        }
+    }
+    write.csv(summ,"result1.csv")
+    return(summ)
+}
+
+
+run.config.peak = function(
+    path.to.config.tsv='config.tsv',
+    path.to.tics,
+    index=1,
   Interactive = TRUE,
   chrom.pattern="std|standard", chrom.match.mode="omit", shorten.col.names=TRUE
 ){
@@ -1044,8 +1084,7 @@ run.config.peaks = function(
     return()
   }
   # OK SO FAR? THE LET'S PROCEED!
-  summ = data.frame()
-  for(i in 1:length(config[,1])){
+  if(i < length(config[,1])){
     path = unlist(paste(path.to.tics,config$mz[i],sep="/"))
     #pngs in the current directory!
 
@@ -1209,23 +1248,12 @@ run.config.peaks = function(
       names(s) = sub("_[[:digit:]]+_[[:digit:]]+-[[:digit:]]+_[[:digit:]]+_","",names(s))
       names(s) = sub("_[[:digit:]]+_[[:digit:]]+-[[:digit:]]+_","",names(s))
 
-      ################### THIS IS WHERE...
-      ############### we can try to fix that crash-on-empty-first-XIC error.
-      if(nrow(s)==0){ # if s is empty, do nothin
-        # do nothing!
-      } else if(nrow(summ)==0){ #if summ is yet empty, set it to s
-        summ = s
-      } else {
-        # otherwise, add missing columns and bind rows
-        s = addabsentcols(s, summ)
-        summ = addabsentcols(summ, s)
-        summ = rbind(summ, s)
-      }
+      print(config)
+      write.table (config, file=gsub(".tsv","-updated.tsv",path.to.config.tsv), sep="\t", row.names=FALSE)
+      return(s)
+
     }
   }
-  print(config)
-  write.table (config, file=gsub(".tsv","-updated.tsv",path.to.config.tsv), sep="\t", row.names=FALSE)
-  return(summ)
 }
 
 addabsentcols = function(addto, addfrom){
