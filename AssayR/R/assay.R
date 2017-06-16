@@ -518,6 +518,7 @@ detect.peaks = function(tic, samples=20, wavethresh=2e4, normlim=5){
   tic <- c(rep(firstvalue, samples), tic, rep(lastvalue, samples))
 
   f = filter(tic, mexican.hat(samples, normlim))
+  # I just don't understand how this can still crash with filter longer than sample.
 
 
   lp = logical.peaks(f,wavethresh)
