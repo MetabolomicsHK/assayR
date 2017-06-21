@@ -1,0 +1,13 @@
+Package: AssayRdata
+Type: Package
+Title: example data for AssayR
+Version: 0.1.3
+Author: Jimi Wills <jimi.wills@ed.ac.uk>
+Maintainer: Jimi Wills <jimi.wills@ed.ac.uk>
+Description: This is data to demonstrate AssaR working.
+    See AssayR for more details.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: AssayR
+BiocViews: MassSpectrometry, Metabolomics, Software

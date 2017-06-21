@@ -21,25 +21,56 @@ information (both percentage and aboslute).
 To install AssayR (first install R and optionally RStudio) run the following
 commands in R:
 
-    install.packages(c("RColorBrewer", "reshape2", "stringr","mzR"))
-    install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.3.tar.gz", repos = NULL, type = "source")
+    source("https://bioconductor.org/biocLite.R")
+    biocLite()
+    biocLite(c("RColorBrewer", "reshape2", "stringr","mzR"))
+    install.packages(
+        "https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.3.tar.gz", 
+        repos = NULL, type = "source")
+    install.packages(
+        "https://gitlab.com/jimiwills/assay.R/raw/master/AssayRdata_0.1.3.tar.gz", 
+        repos = NULL, type = "source")
 
 If you have
 not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 
 heartily recommend
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
+## mzR from source
+
+If you are installing on linux/unix (or mac darwin) 
+you might need to install netcdf and libnetcdf-dev
+packages to get mzR to install properly.
+You may also need to use an older gcc to build mzR.
+On Ubuntu (and similar) you can do the following:
+
+    sudo apt install libnetcdf-dev
+    sudo apt install gcc-4.8 g++-4.8
+    mkdir ~/.R
+    echo CC=gcc-4.8 >> ~/.R/Makevars
+    echo CXX=g++-4.8 >> ~/.R/Makevars
+
+then (re)start R and try installing mzR again.
+
 ## Summary of use
 
 ```{r usage, eval=FALSE}
-# change directory to where your raw files are
-setwd(path.to.raw.files)
-# you can also do this in the RGui or RStudio menu.
 
 # convert raw files to mzML if they are not already
-msconvert_all()
+# msconvert_all() canhelp with this
 # this extract pos and neg and puts them in mzMLpos and mzMLneg
 # directories
+
+# to use the example files, load AssayRdata and grab the file paths...
+
+library(AssayR)
+library(AssayRdata)
+path.to.config <- system.file(
+    "extdata/configs/examples-maxC6.tsv", 
+    package = "AssayR")
+path.to.mzML <- system.file(
+    "extdata/", 
+    package = "AssayRdata")
 
 # generate TICs/EICs/XICs from config file
 path.to.tics <- run.config.tics(path.to.config, path.to.mzML)
