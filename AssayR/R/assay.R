@@ -146,6 +146,7 @@ assay.plotter = function(p,
 
   for(rn in rns){
     rnp = unlist(paste('^',rn,'-(.*)',sep=''))
+    rn <- gsub("[/\\^*+'\\"#@]+","_",rn)
     fn = unlist(paste('relbars_',rn,'.png',sep=''))
     fn2 = unlist(paste('absbars_',rn,'.png',sep=''))
     print(rn)
