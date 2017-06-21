@@ -36,28 +36,6 @@ not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I
 heartily recommend
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
-## mzR from source
-
-mzR binaries are available for Windows 64/32
-and Mac OS X 10.11 (El Capitan).
-
-But not for linux, BSD or anything else.
-
-If you are installing on linux/BSD. 
-you'll need to install libnetcdf-dev
-to get mzR to compile.
-You'll also need to use an older gcc to compile mzR
-and its dependencies.
-On Ubuntu (and similar) you can do the following:
-
-    sudo apt install libnetcdf-dev
-    sudo apt install gcc-4.9 g++-4.8
-    mkdir ~/.R
-    echo CC=gcc-4.9 >> ~/.R/Makevars
-    echo CXX=g++-4.9 >> ~/.R/Makevars
-
-then (re)start R and try installing mzR (again).
-
 ## Summary of use
 
 ```{r usage, eval=FALSE}
