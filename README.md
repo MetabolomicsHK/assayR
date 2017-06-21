@@ -22,7 +22,7 @@ To install AssayR (first install R and optionally RStudio) run the following
 commands in R:
 
     install.packages(c("RColorBrewer", "reshape2", "stringr","mzR"))
-    install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.2.tar.gz", repos = NULL, type = "source")
+    install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.3.tar.gz", repos = NULL, type = "source")
 
 If you have 
 not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 

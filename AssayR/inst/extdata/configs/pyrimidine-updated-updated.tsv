@@ -1,8 +1,0 @@
-"target"	"name"	"mz"	"ppm"	"rt.min"	"rt.max"	"samples"	"threshold"	"known.alternatives"	"C13"	"N15"	"H2"	"event"	"interactive"
-"UMP1"	"UMP1"	323.0286	5	10	18	10	2000	"TBC"	0	2	0	3	"yes"
-"OMP1"	"OMP1"	367.0184	5	10	20	10	100	"TBC"	0	2	0	3	"yes"
-"Gln1"	"Gln1"	145.0619	5	10	18	10	1e+05	"TBC"	0	2	0	1	"yes"
-"cPhos1"	"cPhos1"	139.9754	5	1	40	10	1e+06	"TBC"	0	2	0	1	"yes"
-"Oro1"	"Oro1"	155.0098	5	10	18	10	4000	"TBC"	0	2	0	2	"yes"
-"dhOro1"	"dhOro1"	157.0255	5	10	18	10	1000	"TBC"	0	2	0	2	"yes"
-"cAsp1"	"cAsp1"	175.036	5	13	18	4	500	"TBC"	0	2	0	2	"yes"
