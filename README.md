@@ -24,13 +24,12 @@ commands in R:
     install.packages(c("RColorBrewer", "reshape2", "stringr","mzR"))
     install.packages("https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.3.tar.gz", repos = NULL, type = "source")
 
-If you have 
+If you have
 not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 
-heartily recommend 
+heartily recommend
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
 ## Summary of use
-
 
 ```{r usage, eval=FALSE}
 # change directory to where your raw files are
@@ -61,15 +60,10 @@ assay.plotter(results)
 
 ## Config file
 
-There are example config files with this package.  To access them use a command
+There is an example config file with this package.  To access it use a command
 like this:
 
-    system.file("extdata/configs/pyrimidine.tsv", package = "AssayR")
-
-And to like the files available:
-
-    list.files(system.file("extdata/configs", package = "AssayR"))
-
+    system.file("extdata/configs/examples-maxC6.tsv", package = "AssayR")
 
 The format should be a tsv, as readable by `read.delim`, and the file
 should have the following columns:
@@ -87,7 +81,7 @@ should have the following columns:
 * rt.max
     maximum retention time to be considered (can be modified interactively)
 * seconds
-    width of pick-detection wave in seconds (can be modified interactively)
+    width of pick-detection filter in seconds (can be modified interactively)
 * threshold
     minimum required intensity (can be modified interactively)
 * known alternatives
@@ -98,17 +92,13 @@ should have the following columns:
     in labelled experiment, maximum possible number of 15N in compound
 * H2
     in labelled experiment, maximum possible number of 2H in compound
-* event
-    in mass spec method with multiple events (scans), indicates in which event
-    to find the m/z of this compound
 * interactive
     values: "yes" or "done", indicates whether interactive mode is 
     required for this definition
 * comment
     free text.  I use this for sorting my compounds in pathway order.
-    
-    
-## more information?
+
+## more information
 
 If you think something's missing, please get in contact and I'll update this
 document so everybody can benefit.  Thanks!
