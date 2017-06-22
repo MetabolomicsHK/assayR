@@ -10,7 +10,7 @@ labelled tracer experiments.
 
 Given a table of desired compounds, in a specific format, AssayR will extract
 chromatograms for those compounds, and interactively allow you to optimise peak
-detection.  Peak detection is performed on sthe maximal trace for the whole data
+detection.  Peak detection is performed on the maximal trace for the whole data
 set, including any isotopes you've defined, and so the approach is immune to 
 missing peaks.
 
@@ -19,7 +19,7 @@ there's also graphical output in the form of stacked bars to summarise the
 information (both percentage and aboslute).
 
 To install AssayR (first install R and optionally RStudio) run the following
-commands in R:
+commands in R-3.2.2 or later:
 
     install.packages("RColorBrewer")
     install.packages("reshape2")
@@ -34,7 +34,8 @@ commands in R:
         repos = NULL, type = "source")
 
 If you have
-not yet installed R, please visit [CRAN](https://cran.r-project.org/).  And I 
+not yet installed R, or have an older version, 
+please visit [CRAN](https://cran.r-project.org/).  And I 
 heartily recommend
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
