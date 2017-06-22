@@ -19,7 +19,7 @@ there's also graphical output in the form of stacked bars to summarise the
 information (both percentage and aboslute).
 
 To install AssayR (first install R and optionally RStudio) run the following
-commands in R-3.2.2 or later:
+commands **in R-3.2.2** or later:
 
     install.packages("RColorBrewer")
     install.packages("reshape2")
