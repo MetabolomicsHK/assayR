@@ -39,6 +39,8 @@ please visit [CRAN](https://cran.r-project.org/).  And I
 heartily recommend
 [RStudio Desktop](https://www.rstudio.com/products/RStudio/#Desktop).
 
+Please note that this package is still in development and there are known bugs (see below.)  If you feel you've uncovered another bug, please don't hestitate to report it.
+
 ## Summary of use
 
 ```{r usage, eval=FALSE}
@@ -120,6 +122,11 @@ should have the following columns:
     required for this definition
 * comment
     free text.  I use this for sorting my compounds in pathway order.
+
+## Known bugs
+
+* Very asymettric peaks can cause a peak start but no peak end to be detected. This causes script to crash.  Some error handler needed for this case.
+* The above case can happen due to the workaround used to fix a previous bug which caused a crash when the Mexican hat filter was too wide for the region undergoing detection.  The crash still happens, but for a different reason now!
 
 ## more information
 
