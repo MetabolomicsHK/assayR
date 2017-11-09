@@ -120,9 +120,9 @@ assay.plotter = function(p,
   pp <- read.csv("p2-results.csv")
   pp[pp==0] <-NA
 
-
   melt(pp) -> mm
   gsub("-0$|-[[:digit:]]+[NCH]-[[:digit:]]+$","",mm$X) -> mm$X
+
   dcast(mm,X~variable,sum,na.rm=TRUE) -> dd
   rownames(dd) <- dd$X
   dd$X <- NULL
@@ -141,8 +141,10 @@ assay.plotter = function(p,
   #q = q[,-grep('_n1.*5minutepulse1',colnames(q))]
   #q = q[,-grep('_n2',colnames(q))]
 
+
+
   rns = rownames(p)
-  rns = gsub('-0$','',rns[grep("0$", rns)])
+  rns = gsub('-0$','',rns[grep("-0$", rns)])
 
   for(rn in rns){
     rnp = unlist(paste('^',rn,'-(.*)',sep=''))
@@ -237,8 +239,8 @@ reshape.assay.result2 = function(r, xpatt, ypatt, fun){
 labels.with.component = function(q){
   q$id = rownames(q)
   m = melt(q, id.vars = 'id')
-  m$id2 = gsub('0$|-(13C|15N|2H)-[[:digit:]]+$','',m$variable)
-  m$variable = gsub('^.*(0$|-(13C|15N|2H)-[[:digit:]]+$)','\\1',m$variable)
+  m$id2 = gsub('-(13C|15N|2H)-[[:digit:]]+$|0$','',m$variable)
+  m$variable = gsub('^.*?(-(13C|15N|2H)-[[:digit:]]+$|0$)','\\1',m$variable)
   m$variable = gsub('^0$','-0',m$variable)
   r = dcast(m, id + variable ~ id2)
   rownames(r) = paste(r$id, r$variable, sep='')
