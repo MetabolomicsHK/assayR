@@ -27,10 +27,10 @@ commands **in R-3.2.2** or later:
     biocLite()
     biocLite("mzR")
     install.packages(
-        "https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.3.tar.gz", 
+        "https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.4.tar.gz", 
         repos = NULL, type = "source")
     install.packages(
-        "https://gitlab.com/jimiwills/assay.R/raw/2190202fd4bc0325421bb10c4ec42089d45e1952/AssayRdata_0.1.4.tar.gz", 
+        "https://gitlab.com/jimiwills/assay.R/raw/2190202fd4bc0325421bb10c4ec42089d45e1952/AssayRdata_0.1.3.tar.gz", 
         repos = NULL, type = "source")
 
 If you have
