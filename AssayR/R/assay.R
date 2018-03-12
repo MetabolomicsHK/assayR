@@ -187,6 +187,11 @@ assay.plot = function(q, repeat.inj.pattern = ".*_n[[:digit:]]-(.*)",
 
   par(las=2)
   par(mar=c(10,10,3,4))
+  
+  q <- as.matrix(q)
+  print(q)
+  q[is.infinite(q)] <- NA
+
   barplot(
     as.matrix(q),
     xlim=c(0, ncol(q) + 5),
