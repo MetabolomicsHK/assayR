@@ -67,7 +67,7 @@ dir.create("~/AssayR-example")
 setwd("~/AssayR-example/")
 
 # generate TICs/EICs/XICs from config file
-path.to.tics <- run.config.tics(path.to.config, path.to.mzML)
+run.config.tics(path.to.config, path.to.mzML, desiredOutputDirectory)
 # more about the config file below
 
 # analyse the peaks (interactively)
@@ -81,6 +81,15 @@ results <- run.config.peaks(path.to.config, path.to.tics)
 assay.plotter(results)
 # check the current working directory for outputs
 
+```
+
+## Parallel processing
+
+Samples can be run in parallel using the BiocParallel package:
+
+```
+BPPARAM = MulticoreParam(workers=20)
+run.config.tics(path.to.config, path.to.mzML, desiredOutputDirectory, BPPARAM=BPPARAM)
 ```
 
 ## Config file

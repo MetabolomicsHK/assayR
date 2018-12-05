@@ -9,7 +9,7 @@ Description: This item requires more writing.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: RColorBrewer, reshape2, stringr, mzR
+Depends: RColorBrewer, reshape2, stringr, mzR, BiocParallel
 BiocViews: MassSpectrometry, Metabolomics, Software
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

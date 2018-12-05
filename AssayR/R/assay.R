@@ -835,43 +835,28 @@ ms.access.tics = function(
     return(outputbase)
 }
 
-mzR.tics = function(
-    dir = ".",
-    MZS = c(145.0142, 115.0037, 147.0299, 117.0193),
-    PPMs = c(2.5, 2.5, 2.5, 2.5),
-    C13 = c(0, 0, 0, 0),
-    N15 = c(0, 0, 0, 0),
-    H2 = c(0, 0, 0, 0)
-){
-    olddir = getwd()
-    setwd(dir)
-
-    # it's quicker if these are centroided
-    FILES <- list.files(recursive=TRUE, full.names=TRUE, pattern="\\.mzML")
-    cat("FILES:")
-    cat (FILES)
-    show(FILES)
-
-    stamp = strftime(Sys.time(), format="%Y%m%d-%H%M%S")
-    outputbase = unlist(paste(olddir,stamp,sep="/"))
-    dir.create(outputbase)
-
+mzR.tics = function(fileName, config, inputDir, outputDir) {
+    MZS = config$mz
+    PPMs = config$ppm
+    C13 = config$C13
+    N15 = config$N15
+    H2 = config$H2
+    
     # TODO: Here we need to do something about isotope labels
     C13delta = 13.0033548378 - 12
     N15delta = 15.0001088982 - 14.003074004
     H2delta = 2.0141017778 - 1.00782503207
+  
+    aa = openMSfile(paste(inputDir, fileName, sep='/'))
+    hdr = getTicHeader(aa)
 
     for (j in 1:length(MZS)){
-
-
-
         PPM = PPMs[j]
         mlo = 1-PPM/1000000
         mhi = 1+PPM/1000000
         mzlo = MZS[j] * mlo
         mzhi = MZS[j] * mhi
-        outputdir = unlist(paste(outputbase,MZS[j],sep="/"))
-        dir.create(outputdir)
+        outputdir = unlist(paste(outputDir, MZS[j], sep="/"))
 
         C13max = C13[j]
         N15max = N15[j]
@@ -879,26 +864,14 @@ mzR.tics = function(
 
         # C13 LOOP
         for(i_C13 in 0:C13max){
-
             for(i_N15 in 0:N15max){
-
                 for(i_H2 in 0:H2max){
-                    cat("\n------------------------------------------------------\n")
-                    cat("mz =",mzlo,"..",mzhi,"\n")
-                    cat("13C:",i_C13,"15N:",i_N15,"2H:",i_H2,"\n")
-
                     delta = i_C13*C13delta + i_N15*N15delta + i_H2*H2delta
-
-                    cat("delta =",delta,"\n")
-
                     imzlo = mzlo + delta
                     imzhi = mzhi + delta
 
                     ########################## HERE IS WHERE...
                     ##################### we can track which XICs are already extracted and skip over them
-
-                    cat("isotope mz =",imzlo,"..",imzhi,"\n")
-
 
                     # warning: shorten.names will fail if you try to use . or _ as sep...
                     isoname = ""
@@ -915,71 +888,43 @@ mzR.tics = function(
                         isoname = "0"
                     }
 
-
-
-                    cat("name",isoname,"\n")
-
-                    for (i in 1:length(FILES)){
-                        cat(FILES[i],"\n")
-                        l1 = list.files(outputdir) # list files
-
-                        #HERE1234
-
-
-                        tic.file(
-                            FILES[i],
-                            imzlo,
-                            imzhi,
-                            output.dir=outputdir
-                        )
-
-
-                        l2 = list.files(outputdir) # list files again
-
-                        # now grab the name of the new file and set about renaming it!
-                        newlygeneratedfile = setdiff(l2,l1) # filename
-                        isofilename = sub("\\.tsv$",paste(".",isoname,".tsv",sep=""),newlygeneratedfile)
-                        src = paste(outputdir,newlygeneratedfile,sep="/")
-                        dest = paste(outputdir,isofilename,sep="/")
-                        file.rename(src,dest)
-                        cat("file",newlygeneratedfile,"renamed to",isofilename,"in",outputdir,"\n")
-                    }
+                    p = getTickPeak(aa, hdr, imzlo, imzhi)
+                    outputFile = writePeak(fileName, isoname, imzlo, imzhi, p, outputDir=outputdir)
                 }
             }
         }
     }
-    setwd(olddir)
-    return(outputbase)
 }
 
-
-tic.file <- function(mzML.file, mzlo, mzhi, input.dir='.', output.dir='.'){
-    tic.file.path <- paste(output.dir,
-                           '/',
-                           mzML.file,
-                           '.tic.',
-                           format(mzlo,nsmall=2,digits=2), '-',
-                           format(mzhi,nsmall=2,digits=2),
-                           '.tsv',
-                           sep='')
-    aa <- openMSfile(paste(input.dir,mzML.file,sep='/'))
-    tic <- tic(aa, mzlo, mzhi)
-    #cat(c(paste("#",mzML.file),"\n"), file=tic.file.path)
-    write.table(tic, row.names = FALSE, col.names = TRUE, file=tic.file.path, sep = "\t")
+writePeak <- function(mzMLfile, isoname, mzlo, mzhi, res, outputDir='.'){
+    outFile <- paste(outputDir,
+                     '/',
+                     mzMLfile,
+                     '.tic.',
+                     format(mzlo, nsmall=2, digits=2), '-',
+                     format(mzhi, nsmall=2, digits=2),
+                     '.', isoname,
+                     '.tsv',
+                     sep='')
+    write.table(res, row.names = FALSE, col.names = TRUE, file=outFile, sep = "\t")
+    return(outFile)
 }
 
-
-tic <- function(aa,mzlo,mzhi){
-
+# Can this be vectorized?
+getTicHeader <- function(aa) {
     v <- 1:runInfo(aa)$scanCount
     dim(v) <- length(v)
 
-
     h <- t(apply(v, 1, function(i){
         h <- header(aa,i)
-        return(c(h$lowMZ,h$highMZ))
+        return(c(h$lowMZ,h$highMZ, h$retentionTime))
     }))
 
+    return(h)
+}
+
+getTickPeak = function(aa, h, mzlo, mzhi) {
+    # Vectorization would happen here
     s <- which(h[,1] <= mzlo & mzhi <= h[,2])
     if(length(s) == 0){
         print(paste("Error: ( mzlo mzhi ) = (",mzlo, mzhi,") did no match any scan ranges"))
@@ -987,42 +932,34 @@ tic <- function(aa,mzlo,mzhi){
     dim(s) <- length(s)
 
     x <- t(apply(s, 1, function(i){
-
         p<-as.data.frame(peaks(aa,i))
         t<-sum(p[mzlo <= p[,1] & p[,1] <= mzhi,2])
-        h <- header(aa, i)
-        rt <- h$retentionTime
-        return(c(rt,t))
+        return(c(h[i, 3],t))
     }))
     colnames(x) <- c("rt","sumIntensity")
     return (x)
 }
 
 run.config.tics = function(
-    path.to.config.tsv='config.tsv',
-    path.to.mzMLs = 'mzMLneg/'
+    sampleSheet,
+    inputDir,
+    outputDir,
+    BPPARAM=SerialParam()
 ){
   #
-  config = read.delim (path.to.config.tsv)
+  config = read.delim(sampleSheet)
   config$C13[is.na(config$C13) | config$C13 == ""] <- 0
   config$N15[is.na(config$N15) | config$N15 == ""] <- 0
   config$H2[is.na(config$H2) | config$H2 == ""] <- 0
-  print(config)
-  return(mzR.tics(
-      dir = path.to.mzMLs,
-      MZS = config$mz,
-      PPMs = config$ppm,
-      C13 = config$C13,
-      N15 = config$N15,
-      H2 = config$H2))
-  # return(ms.access.tics(
-  #     dir = path.to.mzMLs,
-  #     MZS = config$mz,
-  #     PPMs = config$ppm,
-  #     C13 = config$C13,
-  #     N15 = config$N15,
-  #     H2 = config$H2,
-  #     EVENTS = config$event))
+  
+  # Get a list of files in inputDir
+  flist = list.files(recursive=TRUE, full.names=TRUE, path=inputDir, pattern="\\.mzML")
+  if(!dir.exists(outputDir)) dir.create(outputDir, recursive=TRUE)
+  lapply(config$mz, function(x) {
+    odir = sprintf("%s/%s", outputDir, x)
+    if(!dir.exists(odir)) dir.create(odir, recursive=TRUE)
+  })
+  bplapply(flist, function(x) mzR.tics(basename(x), config, inputDir, outputDir), BPPARAM=BPPARAM)
 }
 
 
