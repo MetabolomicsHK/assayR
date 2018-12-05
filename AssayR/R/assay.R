@@ -960,6 +960,7 @@ run.config.tics = function(
     if(!dir.exists(odir)) dir.create(odir, recursive=TRUE)
   })
   bplapply(flist, function(x) mzR.tics(basename(x), config, inputDir, outputDir), BPPARAM=BPPARAM)
+  outputDir
 }
 
 
