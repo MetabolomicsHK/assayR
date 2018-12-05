@@ -21,17 +21,9 @@ information (both percentage and aboslute).
 To install AssayR (first install R and optionally RStudio) run the following
 commands **in R-3.2.2** or later:
 
-    install.packages(c("RColorBrewer","reshape2"))
-    # accept R's suggestion to install into home folder, if it asks
-    source("https://bioconductor.org/biocLite.R")
-    biocLite()
-    biocLite("mzR")
-    install.packages(
-        "https://gitlab.com/jimiwills/assay.R/raw/master/AssayR_0.1.5.tar.gz", 
-        repos = NULL, type = "source")
-    install.packages(
-        "https://gitlab.com/jimiwills/assay.R/raw/2190202fd4bc0325421bb10c4ec42089d45e1952/AssayRdata_0.1.3.tar.gz", 
-        repos = NULL, type = "source")
+    install.packages("devtools")
+    devtools::install_gitlab("jimiwills/assay.R/AssayR", dependencies=TRUE)
+    devtools::install_gitlab("jimiwills/assay.R/AssayRdata", dependencies=TRUE)
 
 If you have
 not yet installed R, or have an older version, 
