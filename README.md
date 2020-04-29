@@ -22,7 +22,7 @@ To install AssayR (first install R and optionally RStudio) run the following
 commands **in R-3.2.2** or later:
 
     install.packages("devtools")
-    devtools::install_github("davidsanin/assayR/", dependencies=TRUE)
+    devtools::install_github("davidsanin/assayR", dependencies=TRUE)
 
 If you have
 not yet installed R, or have an older version, 
